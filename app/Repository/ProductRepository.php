@@ -11,13 +11,18 @@ use Illuminate\Support\Facades\DB;
 class ProductRepository
 {
     
+    
+    public function getProductById($product_id)
+    {
+        return Product::where('product_id', $product_id)->first();
+    }
     public function getProducts($category = null)
     {
         $user_id = auth()->id();
         $searchQuery = request()->search;
-        $request = Product::query();
+        $product = Product::query();
         if($searchQuery && $searchQuery != '') {
-            $request->where(function($query) use ($searchQuery)
+            $product->where(function($query) use ($searchQuery)
             {
                 $query->where('product_name', 'LIKE', '%' . $searchQuery . '%');
                 $query->orWhere('product_brand', 'LIKE', '%' . $searchQuery . '%');
@@ -29,8 +34,11 @@ class ProductRepository
             });
         }
         
-        
-        return $request->where('category_id', $category);
+        if($category){
+            return $product->where('category_id', $category);
+        }else{
+            return $product;
+        }
 
 //        return $request->where(['respondent_id' => $user_id, 'request_status' => $request_status])
 //            ->with('user:id,first_name,last_name,email')

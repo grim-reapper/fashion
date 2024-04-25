@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use App\Models\Color;
 use App\Models\Product;
-use App\Models\Size;
 use App\Repository\ProductRepository;
 use Cart;
 use Illuminate\Http\Request;
 
-class ShopController extends Controller
+class ProductController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -29,12 +26,10 @@ class ShopController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index($category = null)
+    public function detail(int $product_id)
     {
-        $products = $this->productRepo->getProducts($category)->paginate();
-        $categories = Category::all();
-        $colors = Color::all();
-        $sizes = Size::all();
-        return view('shop.index', compact('products', 'categories', 'colors', 'sizes'));
+        $product = $this->productRepo->getProductById($product_id);
+        
+        return view('product.detail', compact('product'));
     }
 }
