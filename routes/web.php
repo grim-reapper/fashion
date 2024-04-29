@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
 use Illuminate\Support\Facades\Route;
@@ -23,6 +23,9 @@ Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'inde
 Route::get('/shop/{category?}', [App\Http\Controllers\ShopController::class, 'index'])->name('shop');
 Route::get('/detail/{product_id}', [App\Http\Controllers\ProductController::class, 'detail'])->name('detail');
 Route::get('/add-to-cart', [App\Http\Controllers\CartController::class, 'index'])->name('add-to-cart');
+
+Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+Route::post('/contact-save', [ContactController::class, 'contactSave'])->name('contact-save');
 
 Route::get('/test', function (){
     \DB::table('products')
